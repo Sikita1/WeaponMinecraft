@@ -25,7 +25,7 @@ public class Gameplay : MonoBehaviour
 
     private float _upperLimit = 10f;
     private float _lowerLimit = 355f;
-    private float _delay = 1f;
+    private float _delay = 0f;
 
     private void Start()
     {
@@ -53,18 +53,14 @@ public class Gameplay : MonoBehaviour
         if (_isSpinning == true)
         {
             _tween.Kill();
-            //Time.timeScale = 0f;
+            Time.timeScale = 0f;
             CheckWin();
             _isSpinning = false;
         }
         else
         {
+            Time.timeScale = 1f;
             _isSpinning = true;
-            //Time.timeScale = 1f;
-
-            //if (_tween != null)
-            //    _tween.Kill();
-
             Rotate();
         }
     }
