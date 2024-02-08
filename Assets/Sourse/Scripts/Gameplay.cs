@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Events;
-using System.Collections;
+using YG;
 
 public class Gameplay : MonoBehaviour
 {
@@ -14,6 +14,16 @@ public class Gameplay : MonoBehaviour
     [SerializeField] private Score _score;
     [SerializeField] private Dancer _dancer;
     [SerializeField] private float _rotationSpeed;
+
+    [SerializeField] private Image _tap;
+
+    [SerializeField] private ParticleSystem _systemLeft;
+    [SerializeField] private ParticleSystem _systemRight;
+
+    [SerializeField] private Audio _audio;
+
+    [SerializeField] private Advertisement _advertisement;
+    [SerializeField] private Timer _timerPause;
 
     private const string _saveKey = "imageSave";
 
@@ -28,8 +38,26 @@ public class Gameplay : MonoBehaviour
 
     private float _upperLimit = 10f;
     private float _lowerLimit = 355f;
-    private float _delay = 0f;
     private float _fullTurnover = 360f;
+
+    private int _currentValueADS = 0;
+
+    private int _timeToADS;
+
+    private void Awake()
+    {
+        HideTimerPanel();
+    }
+
+    private void OnEnable()
+    {
+        _advertisement.CommercialsAreOver += HideTimerPanel;
+    }
+
+    private void OnDisable()
+    {
+        _advertisement.CommercialsAreOver -= HideTimerPanel;
+    }
 
     private void Start()
     {
@@ -37,16 +65,23 @@ public class Gameplay : MonoBehaviour
 
         Load();
         ShowPictures(_activeImage);
-        //_dancer.Activ();
 
-        Win?.Invoke();
+        _tap.gameObject.SetActive(true);
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
             Toggle();
+
+        if (_advertisement.IsADS == true)
+            _audio.Pause();
+        else
+            _audio.UnPause();
     }
+
+    private void HideTimerPanel() =>
+    _timerPause.gameObject.SetActive(false);
 
     private void Rotate()
     {
@@ -60,19 +95,28 @@ public class Gameplay : MonoBehaviour
 
     private void Toggle()
     {
+        if (_tap.gameObject.activeSelf == true)
+            _tap.gameObject.SetActive(false);
+
         if (_isSpinning == true)
-        {
-            _tween.Kill();
-            Time.timeScale = 0f;
-            CheckWin();
-            _isSpinning = false;
-        }
+            Pause();
         else
-        {
-            Time.timeScale = 1f;
-            _isSpinning = true;
-            Rotate();
-        }
+            UnPause();
+    }
+
+    private void Pause()
+    {
+        _tween.Kill();
+        Time.timeScale = 0f;
+        CheckWin();
+        _isSpinning = false;
+    }
+
+    private void UnPause()
+    {
+        Time.timeScale = 1f;
+        _isSpinning = true;
+        Rotate();
     }
 
     private void SetPicture()
@@ -86,17 +130,16 @@ public class Gameplay : MonoBehaviour
 
     private void CheckWin()
     {
-        if(_active.transform.localEulerAngles.z <= _upperLimit || _active.transform.localEulerAngles.z >= _lowerLimit)
+        if (_active.transform.localEulerAngles.z <= _upperLimit
+         || _active.transform.localEulerAngles.z >= _lowerLimit)
         {
-            if (_coroutine != null)
-                StopCoroutine(Winning());
-
-            _coroutine = StartCoroutine(Winning());
-
+            Winning();
             _dancer.Activ();
 
             Time.timeScale = 1f;
             _isSpinning = true;
+
+            _tap.gameObject.SetActive(true);
 
             Win?.Invoke();
         }
@@ -118,18 +161,25 @@ public class Gameplay : MonoBehaviour
         image.color = color;
     }
 
+    private void ParticlesPlay()
+    {
+        _systemLeft.Play();
+        _systemRight.Play();
+        _audio.Win();
+    }
+
     private float SetSpeed()
     {
-        if (_score.GetValue() < 5)
+        if (_score.GetValue() < 7)
             _rotationSpeed = 0.6f;
 
-        if (_score.GetValue() >= 5 && _score.GetValue() < 15)
+        if (_score.GetValue() >= 7 && _score.GetValue() < 20)
             _rotationSpeed = 0.5f;
 
-        if (_score.GetValue() >= 15 && _score.GetValue() < 20)
+        if (_score.GetValue() >= 20 && _score.GetValue() < 40)
             _rotationSpeed = 0.4f;
 
-        if (_score.GetValue() >= 20 && _score.GetValue() <= 160)
+        if (_score.GetValue() >= 40 && _score.GetValue() <= 160)
             _rotationSpeed = 0.1f;
 
         return _rotationSpeed;
@@ -142,14 +192,33 @@ public class Gameplay : MonoBehaviour
         SetColor(_target);
     }
 
-    private IEnumerator Winning()
+    private void Winning()
     {
-        WaitForSeconds wait = new WaitForSeconds(_delay);
-
-        yield return wait;
-
         ResetRotationImage();
         SetPicture();
+        ParticlesPlay();
+
+        _currentValueADS++;
+        ShowAdvertisement();
+    }
+
+    private void ShowAdvertisement()
+    {
+        int value = 5;
+
+        if (_currentValueADS == value)
+        {
+            _timeToADS = YandexGame.Instance.infoYG.fullscreenAdInterval - (int)YandexGame.timerShowAd;
+
+            if (_timeToADS <= 0)
+            {
+#if UNITY_EDITOR == false
+            _timerPause.gameObject.SetActive(true);
+#endif
+            }
+
+            _currentValueADS = 0;
+        }
     }
 
     private void AssignPicture(Image image, int activeImage) =>

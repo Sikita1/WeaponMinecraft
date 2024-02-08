@@ -11,6 +11,7 @@ public class ViewSpeed : MonoBehaviour
     private Tween _tween;
 
     private int _speed = 1;
+    private float _delay = 0.3f;
 
     private void OnEnable()
     {
@@ -24,9 +25,10 @@ public class ViewSpeed : MonoBehaviour
 
     private void Start()
     {
-        _tween = transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), 0.3f)
+        OnWin();
+
+        _tween = transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), _delay)
                           .SetLoops(-1, LoopType.Yoyo)
-                          //.SetRelative()
                           .SetEase(Ease.Linear);
     }
 
@@ -38,16 +40,16 @@ public class ViewSpeed : MonoBehaviour
 
     private int SetSpeed()
     {
-        if (_score.GetValue() < 5)
+        if (_score.GetValue() < 7)
             _speed = 1;
 
-        if (_score.GetValue() >= 5 && _score.GetValue() < 15)
+        if (_score.GetValue() >= 7 && _score.GetValue() < 20)
             _speed = 3;
 
-        if (_score.GetValue() >= 15 && _score.GetValue() < 20)
+        if (_score.GetValue() >= 20 && _score.GetValue() < 40)
             _speed = 5;
 
-        if (_score.GetValue() >= 20 && _score.GetValue() <= 160)
+        if (_score.GetValue() >= 40 && _score.GetValue() <= 160)
             _speed = 10;
 
         return _speed;

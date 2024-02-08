@@ -3,6 +3,6 @@ namespace SaveData
     [System.Serializable]
     public class ScoreController
     {
-        public int MaxValue;
+        public int MaxValue = 1;
     }
 }

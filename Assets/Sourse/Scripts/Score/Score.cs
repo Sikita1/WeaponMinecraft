@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using YG;
 
 public class Score : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class Score : MonoBehaviour
 
     private const string _saveKey = "valueSave";
 
-    private int _value = 0;
+    private int _value = 1;
 
     private void Awake()
     {
@@ -37,10 +38,12 @@ public class Score : MonoBehaviour
         _value++;
 
         if (_value == 161)
-            _value = 0;
+            _value = 1;
 
         Save();
         Show();
+
+        YandexGame.NewLeaderboardScores("BestPlayer", _value);
     }
 
     private void Show()

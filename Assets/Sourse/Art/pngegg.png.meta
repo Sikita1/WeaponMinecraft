@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -103,14 +103,14 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -877,9 +877,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3526
-        y: 3522
+        y: 3523
         width: 314
-        height: 318
+        height: 317
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -898,9 +898,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3198
-        y: 3522
+        y: 3525
         width: 321
-        height: 314
+        height: 312
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1170,8 +1170,8 @@ TextureImporter:
       name: pngegg_50
       rect:
         serializedVersion: 2
-        x: 635
-        y: 3209
+        x: 645
+        y: 3202
         width: 305
         height: 313
       alignment: 0
@@ -1296,10 +1296,10 @@ TextureImporter:
       name: pngegg_56
       rect:
         serializedVersion: 2
-        x: 2566
-        y: 3199
-        width: 315
-        height: 304
+        x: 2567
+        y: 3203
+        width: 310
+        height: 300
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1317,8 +1317,8 @@ TextureImporter:
       name: pngegg_57
       rect:
         serializedVersion: 2
-        x: 2874
-        y: 3203
+        x: 2886
+        y: 3202
         width: 315
         height: 314
       alignment: 0
@@ -1341,7 +1341,7 @@ TextureImporter:
         x: 3211
         y: 3210
         width: 303
-        height: 310
+        height: 307
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1821,7 +1821,7 @@ TextureImporter:
       name: pngegg_81
       rect:
         serializedVersion: 2
-        x: 2870
+        x: 2881
         y: 2565
         width: 320
         height: 315
@@ -1842,10 +1842,10 @@ TextureImporter:
       name: pngegg_82
       rect:
         serializedVersion: 2
-        x: 3215
-        y: 2592
-        width: 306
-        height: 297
+        x: 3209
+        y: 2577
+        width: 313
+        height: 301
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3060,9 +3060,9 @@ TextureImporter:
       name: pngegg_140
       rect:
         serializedVersion: 2
-        x: 957
+        x: 964
         y: 640
-        width: 320
+        width: 313
         height: 318
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
