@@ -41,8 +41,9 @@ public class Gameplay : MonoBehaviour
     private float _fullTurnover = 360f;
 
     private int _currentValueADS = 0;
-
     private int _timeToADS;
+
+    private bool _isPanelTimerActive;
 
     private void Awake()
     {
@@ -71,7 +72,7 @@ public class Gameplay : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && _isPanelTimerActive == false)
             Toggle();
 
         if (_advertisement.IsADS == true)
@@ -80,8 +81,12 @@ public class Gameplay : MonoBehaviour
             _audio.UnPause();
     }
 
-    private void HideTimerPanel() =>
-    _timerPause.gameObject.SetActive(false);
+    private void HideTimerPanel()
+    {
+        _timerPause.gameObject.SetActive(false);
+        _isPanelTimerActive = false;
+        Time.timeScale = 1f;
+    }
 
     private void Rotate()
     {
@@ -213,12 +218,19 @@ public class Gameplay : MonoBehaviour
             if (_timeToADS <= 0)
             {
 #if UNITY_EDITOR == false
-            _timerPause.gameObject.SetActive(true);
+            StartTimerADS();
 #endif
             }
 
             _currentValueADS = 0;
         }
+    }
+
+    private void StartTimerADS()
+    {
+        _timerPause.gameObject.SetActive(true);
+        _isPanelTimerActive = true;
+        Time.timeScale = 0f;
     }
 
     private void AssignPicture(Image image, int activeImage) =>
