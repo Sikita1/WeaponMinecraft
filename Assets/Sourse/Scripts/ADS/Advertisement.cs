@@ -5,6 +5,7 @@ using YG;
 public class Advertisement : MonoBehaviour
 {
     [SerializeField] private Timer _timer;
+    [SerializeField] private Gameplay _gameplay;
 
     public bool IsADS { get; private set; }
 
@@ -15,6 +16,7 @@ public class Advertisement : MonoBehaviour
         _timer.TimerEnd += Show;
         YandexGame.OpenFullAdEvent += OpenCallback;
         YandexGame.CloseFullAdEvent += CloseCallback;
+        YandexGame.RewardVideoEvent += Rewarded;
     }
 
     private void OnDisable()
@@ -22,10 +24,17 @@ public class Advertisement : MonoBehaviour
         _timer.TimerEnd -= Show;
         YandexGame.OpenFullAdEvent -= OpenCallback;
         YandexGame.CloseFullAdEvent -= CloseCallback;
+        YandexGame.RewardVideoEvent -= Rewarded;
     }
 
     public void Show() =>
         YandexGame.FullscreenShow();
+
+    public void ShowReward() =>
+        YandexGame.RewVideoShow(0);
+
+    private void Rewarded(int obj) =>
+        _gameplay.LevelUp();
 
     private void OpenCallback() =>
         IsADS = true;

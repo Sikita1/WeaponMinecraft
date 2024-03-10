@@ -25,9 +25,11 @@ public class ViewSpeed : MonoBehaviour
 
     private void Start()
     {
+        float maxScale = 0.5f;
+
         OnWin();
 
-        _tween = transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), _delay)
+        _tween = transform.DOScale(new Vector3(maxScale, maxScale, maxScale), _delay)
                           .SetLoops(-1, LoopType.Yoyo)
                           .SetEase(Ease.Linear);
     }
@@ -49,7 +51,7 @@ public class ViewSpeed : MonoBehaviour
         if (_score.GetValue() >= 20 && _score.GetValue() < 40)
             _speed = 5;
 
-        if (_score.GetValue() >= 40 && _score.GetValue() <= 160)
+        if (_score.GetValue() >= 40 && _score.GetValue() <= _gameplay.GetSpritesCount())
             _speed = 10;
 
         return _speed;

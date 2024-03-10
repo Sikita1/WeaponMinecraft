@@ -4,8 +4,9 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Events;
 using YG;
+using UnityEngine.EventSystems;
 
-public class Gameplay : MonoBehaviour
+public class Gameplay : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private List<Sprite> _sprites;
 
@@ -70,16 +71,30 @@ public class Gameplay : MonoBehaviour
         _tap.gameObject.SetActive(true);
     }
 
-    private void Update()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (Input.GetMouseButtonDown(0) && _isPanelTimerActive == false)
+        if (_isPanelTimerActive == false)
             Toggle();
 
         if (_advertisement.IsADS == true)
             _audio.Pause();
         else
             _audio.UnPause();
+
+        Debug.Log("Работает");
     }
+
+    public int GetSpritesCount() =>
+        _sprites.Count;
+
+    public void ResetButton()
+    {
+        _score.ResetValue();
+        UpLelev();
+    }
+
+    public void LevelUp() =>
+        UpLelev();
 
     private void HideTimerPanel()
     {
@@ -137,24 +152,26 @@ public class Gameplay : MonoBehaviour
     {
         if (_active.transform.localEulerAngles.z <= _upperLimit
          || _active.transform.localEulerAngles.z >= _lowerLimit)
-        {
-            Winning();
-            _dancer.Activ();
+            UpLelev();
+    }
 
-            Time.timeScale = 1f;
-            _isSpinning = true;
+    private void UpLelev()
+    {
+        Winning();
+        _dancer.Activ();
 
-            _tap.gameObject.SetActive(true);
+        Time.timeScale = 1f;
+        _isSpinning = true;
 
-            Win?.Invoke();
-        }
+        _tap.gameObject.SetActive(true);
+
+        Win?.Invoke();
     }
 
     private void ResetRotationImage()
     {
         _activeRotation = 0f;
         _active.transform.rotation = Quaternion.identity;
-        //_active.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void SetColor(Image image)
@@ -184,7 +201,7 @@ public class Gameplay : MonoBehaviour
         if (_score.GetValue() >= 20 && _score.GetValue() < 40)
             _rotationSpeed = 0.4f;
 
-        if (_score.GetValue() >= 40 && _score.GetValue() <= 160)
+        if (_score.GetValue() >= 40 && _score.GetValue() <= GetSpritesCount())
             _rotationSpeed = 0.1f;
 
         return _rotationSpeed;

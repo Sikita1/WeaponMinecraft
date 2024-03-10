@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using YG;
 
 public class Score : MonoBehaviour
@@ -8,6 +9,8 @@ public class Score : MonoBehaviour
     [SerializeField] private Gameplay _gameplay;
 
     private const string _saveKey = "valueSave";
+
+    public event UnityAction Changed;
 
     private int _value = 1;
 
@@ -33,15 +36,25 @@ public class Score : MonoBehaviour
 
     public int GetValue() => _value;
 
+    public void ResetValue()
+    {
+        PlayerPrefs.DeleteAll();
+        _value = 0;
+        Save();
+        Show();
+    }
+
     private void OnWin()
     {
         _value++;
 
-        if (_value == 161)
+        if (_value == _gameplay.GetSpritesCount() + 1)
             _value = 1;
 
         Save();
         Show();
+
+        Changed?.Invoke();
 
         YandexGame.NewLeaderboardScores("BestPlayer", _value);
     }
