@@ -34,7 +34,7 @@ public class Advertisement : MonoBehaviour
         YandexGame.RewVideoShow(0);
 
     private void Rewarded(int obj) =>
-        _gameplay.LevelUp();
+        _gameplay.Pause();
 
     private void OpenCallback() =>
         IsADS = true;

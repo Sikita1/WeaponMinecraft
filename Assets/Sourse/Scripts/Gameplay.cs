@@ -90,11 +90,8 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
     public void ResetButton()
     {
         _score.ResetValue();
-        UpLelev();
+        Pause();
     }
-
-    public void LevelUp() =>
-        UpLelev();
 
     private void HideTimerPanel()
     {
@@ -124,7 +121,7 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
             UnPause();
     }
 
-    private void Pause()
+    public void Pause()
     {
         _tween.Kill();
         Time.timeScale = 0f;
