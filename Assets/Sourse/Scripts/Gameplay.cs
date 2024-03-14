@@ -26,6 +26,8 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
     [SerializeField] private Advertisement _advertisement;
     [SerializeField] private Timer _timerPause;
 
+    [SerializeField] private Levels _levels;
+
     private const string _saveKey = "imageSave";
 
     public event UnityAction Win;
@@ -80,9 +82,10 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
             _audio.Pause();
         else
             _audio.UnPause();
-
-        Debug.Log("Работает");
     }
+
+    public Sprite GetAvtiveSprites(int value) =>
+        _sprites[value];
 
     public int GetSpritesCount() =>
         _sprites.Count;
@@ -90,7 +93,13 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
     public void ResetButton()
     {
         _score.ResetValue();
-        Pause();
+        _levels.ZeroOut();
+        _tween.Kill();
+        _isSpinning = false;
+        ResetRotationImage();
+        SetPicture();
+        ParticlesPlay();
+        //Pause();
     }
 
     private void HideTimerPanel()
@@ -126,6 +135,13 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
         _tween.Kill();
         Time.timeScale = 0f;
         CheckWin();
+        _isSpinning = false;
+    }
+
+    public void PauseGame()
+    {
+        _tween.Kill();
+        Time.timeScale = 0f;
         _isSpinning = false;
     }
 
@@ -189,17 +205,32 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
 
     private float SetSpeed()
     {
-        if (_score.GetValue() < 7)
+        if(_levels.GetValue() == 0)
+            _rotationSpeed = 0.8f;
+
+        if (_levels.GetValue() == 1)
             _rotationSpeed = 0.6f;
 
-        if (_score.GetValue() >= 7 && _score.GetValue() < 20)
-            _rotationSpeed = 0.5f;
+        if (_levels.GetValue() == 2)
+            _rotationSpeed = 0.8f;
 
-        if (_score.GetValue() >= 20 && _score.GetValue() < 40)
-            _rotationSpeed = 0.4f;
+        if (_levels.GetValue() == 3)
+            _rotationSpeed = 0.8f;
 
-        if (_score.GetValue() >= 40 && _score.GetValue() <= GetSpritesCount())
-            _rotationSpeed = 0.1f;
+        if (_levels.GetValue() == 4)
+            _rotationSpeed = 0.8f;
+
+        //if (_score.GetValue() < 7)
+        //    _rotationSpeed = 0.6f;
+
+        //if (_score.GetValue() >= 7 && _score.GetValue() < 20)
+        //    _rotationSpeed = 0.5f;
+
+        //if (_score.GetValue() >= 20 && _score.GetValue() < 40)
+        //    _rotationSpeed = 0.4f;
+
+        //if (_score.GetValue() >= 40 && _score.GetValue() <= GetSpritesCount())
+        //    _rotationSpeed = 0.1f;
 
         return _rotationSpeed;
     }
@@ -216,6 +247,7 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
         ResetRotationImage();
         SetPicture();
         ParticlesPlay();
+        _levels.Boost();
 
         _currentValueADS++;
         ShowAdvertisement();

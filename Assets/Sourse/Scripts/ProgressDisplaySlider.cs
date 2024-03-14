@@ -7,6 +7,10 @@ public class ProgressDisplaySlider : MonoBehaviour
     [SerializeField] private Score _score;
     [SerializeField] private Slider _slider;
 
+    [SerializeField] private Gameplay _gameplay;
+
+    [SerializeField] private Levels _levels;
+
     private float _delay = 0.02f;
 
     private Coroutine _coroutine;
@@ -26,18 +30,16 @@ public class ProgressDisplaySlider : MonoBehaviour
         _score.Changed -= OnChanged;
     }
 
-    private void OnChanged()
-    {
-        _coroutine = StartCoroutine(SlideDisplay(_score.GetValue()));
-    }
+    private void OnChanged() =>
+        _coroutine = StartCoroutine(SlideDisplay(_levels.GetValue()));
 
-    private IEnumerator SlideDisplay(float health)
+    private IEnumerator SlideDisplay(float value)
     {
         WaitForSeconds wait = new WaitForSeconds(_delay);
 
-        while (_slider.value != health)
+        while (_slider.value != value)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, health, 1f);
+            _slider.value = Mathf.MoveTowards(_slider.value, value, 1f);
             yield return wait;
         }
     }

@@ -12,7 +12,7 @@ public class Score : MonoBehaviour
 
     public event UnityAction Changed;
 
-    private int _value = 1;
+    private int _value;
 
     private void Awake()
     {
@@ -39,7 +39,7 @@ public class Score : MonoBehaviour
     public void ResetValue()
     {
         PlayerPrefs.DeleteAll();
-        _value = 0;
+        _value = 1;
         Save();
         Show();
     }

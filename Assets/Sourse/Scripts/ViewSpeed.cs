@@ -7,6 +7,7 @@ public class ViewSpeed : MonoBehaviour
     [SerializeField] private TMP_Text _tMP_Text;
     [SerializeField] private Score _score;
     [SerializeField] private Gameplay _gameplay;
+    [SerializeField] private Levels _levels;
 
     private Tween _tween;
 
@@ -42,17 +43,31 @@ public class ViewSpeed : MonoBehaviour
 
     private int SetSpeed()
     {
-        if (_score.GetValue() < 7)
+        if (_levels.GetValue() == 0)
             _speed = 1;
 
-        if (_score.GetValue() >= 7 && _score.GetValue() < 20)
+        if (_levels.GetValue() == 1)
             _speed = 3;
 
-        if (_score.GetValue() >= 20 && _score.GetValue() < 40)
+        if (_levels.GetValue() == 2)
             _speed = 5;
 
-        if (_score.GetValue() >= 40 && _score.GetValue() <= _gameplay.GetSpritesCount())
+        if (_levels.GetValue() == 3)
+            _speed = 7;
+
+        if (_levels.GetValue() == 4)
             _speed = 10;
+
+        Debug.Log($"_counter - { _levels.GetValue()}");
+
+        //if (_score.GetValue() >= 7 && _score.GetValue() < 20)
+        //    _speed = 3;
+
+        //if (_score.GetValue() >= 20 && _score.GetValue() < 40)
+        //    _speed = 5;
+
+        //if (_score.GetValue() >= 40 && _score.GetValue() <= _gameplay.GetSpritesCount())
+        //    _speed = 10;
 
         return _speed;
     }
