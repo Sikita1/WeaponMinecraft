@@ -6,6 +6,7 @@ public class Advertisement : MonoBehaviour
 {
     [SerializeField] private Timer _timer;
     [SerializeField] private Gameplay _gameplay;
+    [SerializeField] private Audio _audio;
 
     public bool IsADS { get; private set; }
 
@@ -30,18 +31,30 @@ public class Advertisement : MonoBehaviour
     public void Show() =>
         YandexGame.FullscreenShow();
 
-    public void ShowReward() =>
+    public void ShowReward()
+    {
+        _audio.Pause();
         YandexGame.RewVideoShow(0);
+    }
 
-    private void Rewarded(int obj) =>
-        _gameplay.Pause();
+    private void Rewarded(int obj)
+    {
+        _gameplay.UpLelev();
+        _gameplay.PauseGame();
+        _audio.UnPause();
+        Time.timeScale = 1f;
+    }
 
-    private void OpenCallback() =>
+    private void OpenCallback()
+    {
         IsADS = true;
+        _audio.Pause();
+    }
 
     private void CloseCallback()
     {
         IsADS = false;
         CommercialsAreOver?.Invoke();
+        _audio.UnPause();
     }
 }

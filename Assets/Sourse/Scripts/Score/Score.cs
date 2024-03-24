@@ -40,6 +40,7 @@ public class Score : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         _value = 1;
+        Changed?.Invoke();
         Save();
         Show();
     }

@@ -17,11 +17,13 @@ public class ViewSpeed : MonoBehaviour
     private void OnEnable()
     {
         _gameplay.Win += OnWin;
+        _levels.Reset += OnWin;
     }
 
     private void OnDisable()
     {
         _gameplay.Win -= OnWin;
+        _levels.Reset -= OnWin;
     }
 
     private void Start()
@@ -57,17 +59,6 @@ public class ViewSpeed : MonoBehaviour
 
         if (_levels.GetValue() == 4)
             _speed = 10;
-
-        Debug.Log($"_counter - { _levels.GetValue()}");
-
-        //if (_score.GetValue() >= 7 && _score.GetValue() < 20)
-        //    _speed = 3;
-
-        //if (_score.GetValue() >= 20 && _score.GetValue() < 40)
-        //    _speed = 5;
-
-        //if (_score.GetValue() >= 40 && _score.GetValue() <= _gameplay.GetSpritesCount())
-        //    _speed = 10;
 
         return _speed;
     }

@@ -92,14 +92,15 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
 
     public void ResetButton()
     {
-        _score.ResetValue();
         _levels.ZeroOut();
+        _score.ResetValue();
         _tween.Kill();
         _isSpinning = false;
         ResetRotationImage();
-        SetPicture();
+        SetFirstPictures();
         ParticlesPlay();
-        //Pause();
+        _tap.gameObject.SetActive(true);
+        _dancer.Activ();
     }
 
     private void HideTimerPanel()
@@ -152,6 +153,15 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
         Rotate();
     }
 
+    private void SetFirstPictures()
+    {
+        if (_sprites.Count > 0 && _activeImage < _sprites.Count - 1)
+            _activeImage = _score.GetValue() - 1;
+
+        Save();
+        ShowPictures(_activeImage);
+    }
+
     private void SetPicture()
     {
         if (_sprites.Count > 0 && _activeImage < _sprites.Count - 1)
@@ -168,7 +178,7 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
             UpLelev();
     }
 
-    private void UpLelev()
+    public void UpLelev()
     {
         Winning();
         _dancer.Activ();
@@ -209,28 +219,16 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
             _rotationSpeed = 0.8f;
 
         if (_levels.GetValue() == 1)
-            _rotationSpeed = 0.6f;
+            _rotationSpeed = 0.7f;
 
         if (_levels.GetValue() == 2)
-            _rotationSpeed = 0.8f;
+            _rotationSpeed = 0.6f;
 
         if (_levels.GetValue() == 3)
-            _rotationSpeed = 0.8f;
+            _rotationSpeed = 0.5f;
 
         if (_levels.GetValue() == 4)
-            _rotationSpeed = 0.8f;
-
-        //if (_score.GetValue() < 7)
-        //    _rotationSpeed = 0.6f;
-
-        //if (_score.GetValue() >= 7 && _score.GetValue() < 20)
-        //    _rotationSpeed = 0.5f;
-
-        //if (_score.GetValue() >= 20 && _score.GetValue() < 40)
-        //    _rotationSpeed = 0.4f;
-
-        //if (_score.GetValue() >= 40 && _score.GetValue() <= GetSpritesCount())
-        //    _rotationSpeed = 0.1f;
+            _rotationSpeed = 0.4f;
 
         return _rotationSpeed;
     }

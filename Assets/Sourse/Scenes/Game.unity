@@ -308,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timer: {fileID: 1963874853}
   _gameplay: {fileID: 903635662}
+  _audio: {fileID: 958794013}
 --- !u!1001 &113437985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12198,7 +12199,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 264653}
         m_TargetAssemblyTypeName: Levels, Assembly-CSharp
-        m_MethodName: ZeroOut
+        m_MethodName: ResetImage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
