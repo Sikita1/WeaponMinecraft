@@ -33,6 +33,7 @@ public class Advertisement : MonoBehaviour
 
     public void ShowReward()
     {
+        IsADS = true;
         _audio.Pause();
         YandexGame.RewVideoShow(0);
     }
@@ -43,6 +44,7 @@ public class Advertisement : MonoBehaviour
         _gameplay.PauseGame();
         _audio.UnPause();
         Time.timeScale = 1f;
+        IsADS = false;
     }
 
     private void OpenCallback()

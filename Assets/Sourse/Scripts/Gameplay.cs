@@ -261,9 +261,9 @@ public class Gameplay : MonoBehaviour, IPointerDownHandler
 
             if (_timeToADS <= 0)
             {
-#if UNITY_EDITOR == false
+//#if UNITY_EDITOR == false
             StartTimerADS();
-#endif
+//#endif
             }
 
             _currentValueADS = 0;
